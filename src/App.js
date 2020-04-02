@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import ApiCards from './Components/FlashCards'
 import './App.css';
 import './bootstrap.css';
 
@@ -8,7 +10,8 @@ class App extends React.Component {
     this.state = {
       isFlipped: false,
       currentCard: 0,
-      data : [{'title':'Card 1', 'name':'Aaron'}, {'title':'Card 2', 'name':'Amanda'}, {'title':'Card 3', 'name':'Heather'}]
+      cards: ApiCards
+      // cards : [{'word':'Card 1', 'definition':'Aaron'}, {'word':'Card 2', 'definition':'Amanda'}, {'word':'Card 3', 'definition':'Heather'}]
     };
   }
 
@@ -16,17 +19,72 @@ class App extends React.Component {
     this.setState({isFlipped: this.state.isFlipped === true ? false: true});
   }
 
+  nextCard(){
+    if(this.state.currentCard + 1 > this.state.cards.length - 1)
+    {
+      this.setState({
+        currentCard: 0,
+        isFlipped:false
+      });
+    }
+    else
+    {
+      this.setState({
+        currentCard: this.state.currentCard + 1,
+        isFlipped:false
+      });
+    }
+  }
 
-
+  previousCard(){
+    if(this.state.currentCard - 1 < 0)
+    {
+      this.setState({
+        currentCard: this.state.cards.length - 1,
+        isFlipped:false
+      });
+    }
+    else
+    {
+      this.setState({
+        currentCard: this.state.currentCard - 1,
+        isFlipped:false
+      });
+    }
+  }
   render(){
     return(
+      <div>
       <CardWindow 
         isFlipped = {this.state.isFlipped}
-        currentCardTitle = {this.state.data[this.state.currentCard].title}
-        currentCardName = {this.state.data[this.state.currentCard].name}
+        currentCardWord = {this.state.cards[this.state.currentCard].word}
+        currentCardDefinition = {this.state.cards[this.state.currentCard].definition}
         onClick = {(i) => this.flipCard(i)}
-      />);
+      />
+      <PreviousCardButton
+      onClick = {(i) => this.previousCard(i)}
+      />
+      <NextCardButton
+      onClick = {(i) => this.nextCard(i)}
+      />
+      </div>
+      );
   }
+}
+function NextCardButton(props){
+  return(
+    <button onClick={() => props.onClick()}>
+      &#8594;
+    </button>
+  );
+}
+
+function PreviousCardButton(props){
+  return(
+    <button onClick={() => props.onClick()}>
+      &#8592;
+    </button>
+  );
 }
 
 class CardWindow extends React.Component {
@@ -35,8 +93,8 @@ class CardWindow extends React.Component {
     return (
       <div className="row">
         <Card
-        title={this.props.currentCardTitle}
-        name={this.props.currentCardName}
+        word={this.props.currentCardWord}
+        definition={this.props.currentCardDefinition}
         isFlipped = {this.props.isFlipped}
         onClick= {() => this.props.onClick(i)}
         />
@@ -53,7 +111,7 @@ function Card(props) {
         <div className="flip-card-inner">
           <div className="flip-card-front">
             <h1>
-            {props.title}
+            {props.word}
             </h1>
           </div>
         </div>
@@ -65,7 +123,7 @@ function Card(props) {
       <div className="flip-card" onClick={() => props.onClick()}>
         <div className="flip-card-inner">
           <div className="flip-card-front">
-            {props.name}
+            {props.definition}
           </div>
         </div>
       </div>
