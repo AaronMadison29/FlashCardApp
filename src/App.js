@@ -109,10 +109,10 @@ class App extends React.Component {
       let thisCollection = this.state.collections[this.state.currentCollection]
       return(
         <div className="row text-center">
-          <div className="col-sm-3">
+          <div className="col-sm-2">
 
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-8">
             <CardWindow
               isFlipped={this.state.isFlipped}
               currentCollection={this.state.currentCollection}
@@ -127,7 +127,7 @@ class App extends React.Component {
               onClick={(i) => this.flipCard(i)}
             />
           </div>
-          <div className="col-sm-3">
+          <div className="col-sm-2">
 
           </div>
         </div>
@@ -217,12 +217,12 @@ class CardCollection extends React.Component{
       <div>
       <h2>Current Card</h2>
         <div className="row">
-          <div className="col-sm-1">
+          <div className="col-sm-2">
           <PreviousButton
             onClick={(i) => this.props.previousCard(i)}
           />
           </div>
-          <div className="col-sm-10">
+          <div className="col-sm-8">
           <Card
             word={this.props.currentCardWord}
             definition={this.props.currentCardDefinition}
@@ -230,7 +230,7 @@ class CardCollection extends React.Component{
             onClick={() => this.props.onClick(i)}
           />
           </div>
-          <div className="col-sm-1">
+          <div className="col-sm-2">
           <NextButton
             className = {"select-button"}
             onClick={(i) => this.props.nextCard(i)}
@@ -245,7 +245,7 @@ class CardCollection extends React.Component{
 function Collection(props)
 {
   return(
-    <div className="flip-card ">
+    <div className="flip-card card-box">
         <div className="flip-card-inner">
           <div className="flip-card-front">
             <h1>
@@ -260,7 +260,7 @@ function Collection(props)
 function Card(props) {
   if (!props.isFlipped) {
     return (
-      <div className="flip-card" onClick={props.onClick}>
+      <div className="flip-card card-box" onClick={props.onClick}>
         <div className="flip-card-inner">
           <div className="flip-card-front">
             <h1>
@@ -273,7 +273,7 @@ function Card(props) {
   }
   else {
     return (
-      <div className="flip-card" onClick={() => props.onClick()}>
+      <div className="flip-card card-box" onClick={() => props.onClick()}>
         <div className="flip-card-inner">
           <div className="flip-card-front">
             {props.definition}
